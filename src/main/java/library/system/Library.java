@@ -27,12 +27,14 @@ public class Library {
         // Add more books as needed
     }
 
-    public void displayCatalog() {
-        System.out.println("Catalog:");
+    public String displayCatalog(ArrayList<Book> catalog) {
+        String data = "Catalog:"+"\n";
         for (Book book : catalog) {
-            System.out.println(book.getTitle() + " by " + book.getAuthor() +
-                    " - Available: " + book.getQuantity());
+            data = data + book.getTitle() + " by " + book.getAuthor() +
+                    " - Available: " + book.getQuantity() +"\n";
         }
+        
+        return data;
     }
 
     public int checkoutBooks(ArrayList<Book> selectedBooks) {
@@ -55,6 +57,9 @@ public class Library {
 
         for (Book selectedBook : selectedBooks) {
             selectedBook.setQuantity(selectedBook.getQuantity() - 1);
+            if(selectedBook.getQuantity() == 0){
+                selectedBook.setAvailable(false);
+            }
         }
 
         return 0; // Return 0 to indicate successful checkout

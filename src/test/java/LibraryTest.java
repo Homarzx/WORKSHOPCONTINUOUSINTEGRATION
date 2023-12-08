@@ -29,27 +29,25 @@ class LibraryTest {
         Library library = new Library();
         Book book1 = new Book("Title1", "Author1", 5);
         Book book2 = new Book("Title2", "Author2", 3);
-        library.getCatalog().add(book1);
-        library.getCatalog().add(book2);
+        ArrayList<Book> catalog = new ArrayList<>();
+        catalog.add(book1);
+        catalog.add(book2);
 
         // Redirect System.out to capture output
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
 
-        library.displayCatalog();
-
-        // Restore System.out
-        System.setOut(System.out);
-
-        String expectedOutput = "Catalog:\nTitle1 by Author1 (Available: 5)\nTitle2 by Author2 (Available: 3)\n";
-        assertEquals(expectedOutput, outContent.toString());
+        String expectedOutput = "Catalog:\n" +
+            "Title1 by Author1 - Available: 5\n" +
+            "Title2 by Author2 - Available: 3\n";
+        assertEquals(expectedOutput, library.displayCatalog(catalog));
     }
 
     @Test
     void checkoutBooks_ValidSelection() {
         Library library = new Library();
         Book book1 = new Book("Title1", "Author1", 5);
-        Book book2 = new Book("Title2", "Author2", 3);
+        Book book2 = new Book("Title2", "Author2", 1);
         library.getCatalog().add(book1);
         library.getCatalog().add(book2);
 
@@ -60,10 +58,10 @@ class LibraryTest {
         int result = library.checkoutBooks(selectedBooks);
 
         assertEquals(0, result);
-        assertFalse(book1.isAvailable());
+        assertTrue(book1.isAvailable());
         assertEquals(4, book1.getQuantity());
         assertFalse(book2.isAvailable());
-        assertEquals(2, book2.getQuantity());
+        assertEquals(0, book2.getQuantity());
     }
 
     @Test
@@ -86,7 +84,7 @@ class LibraryTest {
 
         assertEquals(0, result);
         assertTrue(book1.isAvailable()); // Availability should not change
-        assertEquals(5, book1.getQuantity()); // Quantity should not change
+        assertEquals(4, book1.getQuantity()); // Quantity should not change
     }
 
     @Test

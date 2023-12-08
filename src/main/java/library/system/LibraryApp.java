@@ -58,7 +58,7 @@ public class LibraryApp {
     }
 
     private static void handleCheckout(Library library, Scanner scanner) {
-        library.displayCatalog();
+        System.out.println(library.displayCatalog(library.getCatalog()));
 
         // Book checkout process
         ArrayList<Book> selectedBooks = new ArrayList<>();
